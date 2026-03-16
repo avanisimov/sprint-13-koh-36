@@ -8,8 +8,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -115,6 +117,7 @@ class MainActivity : AppCompatActivity() {
                         it
                     }
                 }
+                visibleBadge(cartItems)
                 catalogItemsAdapter.setItems(catalogItems)
             }
             onAddCountClickListener = OnAddCountClickListener { item ->
@@ -138,6 +141,12 @@ class MainActivity : AppCompatActivity() {
                 catalogItemsAdapter.setItems(catalogItems)
             }
         }
+    }
+
+    private fun visibleBadge(list: List<CartItem>) {
+        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.cart)
+        badge.isVisible = !list.isEmpty()
+        badge.number = list.size
     }
 
     private fun setUpCart() {
@@ -181,6 +190,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.cart -> {
                 changeCurrentScreenMode(ScreenMode.CART)
+                binding.cartEmptyTitle.isVisible = cartItems.isEmpty()
                 true
             }
 
@@ -192,11 +202,13 @@ class MainActivity : AppCompatActivity() {
         if (newScreenMode != currentScreenMode) {
             when (newScreenMode) {
                 ScreenMode.CATALOG -> {
+                    binding.toolbar.setTitle(R.string.catalog_title)
                     binding.catalogContainer.visibility = View.VISIBLE
                     binding.cartContainer.visibility = View.GONE
                 }
 
                 ScreenMode.CART -> {
+                    binding.toolbar.setTitle(R.string.cart_title)
                     binding.catalogContainer.visibility = View.GONE
                     binding.cartContainer.visibility = View.VISIBLE
                 }
