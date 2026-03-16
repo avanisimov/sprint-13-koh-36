@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = R.id.catalog
         binding.bottomNavigation.setOnItemSelectedListener {
             onBottomNavigationItemSelected(it.itemId)
-
         }
 
         setUpCatalog()
