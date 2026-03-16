@@ -53,10 +53,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val badge = bottomNavigation.getOrCreateBadge(R.id.cart)
-        visibleBadge(cartItems)
-
         changeCurrentScreenMode(ScreenMode.CATALOG)
         binding.toolbar.setTitle(R.string.catalog_title)
         binding.bottomNavigation.selectedItemId = R.id.catalog
@@ -147,16 +143,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun visibleBadge(list: List<CartItem>){
+    private fun visibleBadge(list: List<CartItem>) {
         val badge = binding.bottomNavigation.getOrCreateBadge(R.id.cart)
-        if (list.isEmpty()){
-            badge.isVisible = false
-        }else{
-            badge.number = list.size
-            badge.isVisible = true
-        }
+        badge.isVisible = !list.isEmpty()
+        badge.number = list.size
     }
-
 
     private fun setUpCart() {
         binding.cartItemsList.apply {
