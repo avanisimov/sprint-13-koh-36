@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -116,6 +117,7 @@ class MainActivity : AppCompatActivity() {
                         it
                     }
                 }
+                visibleBadge(cartItems)
                 catalogItemsAdapter.setItems(catalogItems)
             }
             onAddCountClickListener = OnAddCountClickListener { item ->
@@ -139,6 +141,12 @@ class MainActivity : AppCompatActivity() {
                 catalogItemsAdapter.setItems(catalogItems)
             }
         }
+    }
+
+    private fun visibleBadge(list: List<CartItem>) {
+        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.cart)
+        badge.isVisible = !list.isEmpty()
+        badge.number = list.size
     }
 
     private fun setUpCart() {
