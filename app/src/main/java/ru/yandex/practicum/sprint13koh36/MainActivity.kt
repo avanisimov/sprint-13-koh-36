@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
@@ -181,6 +182,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.cart -> {
                 changeCurrentScreenMode(ScreenMode.CART)
+                binding.cartEmptyTitle.isVisible = cartItems.isEmpty()
                 true
             }
 
