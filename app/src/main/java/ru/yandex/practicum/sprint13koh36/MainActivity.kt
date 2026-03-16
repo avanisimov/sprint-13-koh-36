@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,6 +52,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val badge = bottomNavigation.getOrCreateBadge(R.id.cart)
+        visibleBadge(cartItems)
 
         changeCurrentScreenMode(ScreenMode.CATALOG)
         binding.toolbar.setTitle(R.string.catalog_title)
@@ -116,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                         it
                     }
                 }
+                visibleBadge(cartItems)
                 catalogItemsAdapter.setItems(catalogItems)
             }
             onAddCountClickListener = OnAddCountClickListener { item ->
@@ -140,6 +146,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun visibleBadge(list: List<CartItem>){
+        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.cart)
+        if (list.isEmpty()){
+            badge.isVisible = false
+        }else{
+            badge.number = list.size
+            badge.isVisible = true
+        }
+    }
+
 
     private fun setUpCart() {
         binding.cartItemsList.apply {
